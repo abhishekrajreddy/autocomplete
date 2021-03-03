@@ -4,6 +4,7 @@ export default class Autocomplete extends Component {
 
     constructor(props){
         super(props);
+        this.inputRef=React.createRef()
         this.state={
             inp:'',
             lists:['Abhishek','Ajit','Aniket','Akshay','Chirag','Coral','Alok','Isha','Imri'],
@@ -41,6 +42,10 @@ export default class Autocomplete extends Component {
             // console.log(name)
             this.setState({selectedName:'You Have Selected '+name})
         }
+        
+        componentDidMount=()=>{
+            this.inputRef.current.focus()
+        }
 
     render() {
         // console.log(this.state.newList)
@@ -52,7 +57,7 @@ export default class Autocomplete extends Component {
                 <h1 className='text-center text-uppercase title'>Auto Complete</h1>
                    <div className='form-group'>
                        <label className='poppin'>Auto Complete Textbox</label>
-                       <input type='text' className='form-control poppin' value={inp} onChange={this.onHandleChange} />
+                       <input type='text' className='form-control poppin' value={inp} ref={this.inputRef} onChange={this.onHandleChange} />
                     </div>
                     <div className=' rounded poppin'>
                         {newList.length === 0?
