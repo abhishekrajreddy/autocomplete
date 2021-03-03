@@ -1,0 +1,93 @@
+import React, { Component } from 'react'
+
+export default class DynamicCalculate extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+             firstInp:[],
+             inputs:[],
+             total:'',
+        }
+    }
+    
+    onAdd=()=>{
+        // this.setState({inputs:'<input type="number" />'})
+        // console.log(i)
+        this.setState({inputs:[...this.state.inputs,'']})
+    }
+   
+
+    onHandleChange1=(e)=>{
+        this.setState({firstInp:[e.target.value]})
+        // var t=e.target.value
+        // console.log(t)
+    }
+     onHandleChange=(e,i)=>{
+         const {inputs}=this.state
+        inputs[i]=e.target.value
+        // this.setState(inputs[i]=e.target.value)
+        // this.setState({[this.state.inputs]:e.target.value})
+        this.setState({inputs:this.state.inputs})
+    }
+
+    onCalculate=()=>{
+        // console.log(this.state)
+
+        var arr1=this.state.firstInp;
+        var arr=this.state.inputs
+        var newarr=arr1.concat(arr)
+        console.log(arr1)
+        console.log(arr)
+        // console.log(newarr)
+        if(arr1.length === 0 ){
+            alert('Invalid')
+        }
+        // if(arr == '' ){
+        //     alert('Invalid')
+        // }
+        else{
+       var newsum1=newarr.reduce((a,b)=>{
+           return parseInt(a)+parseInt(b)
+       })
+       
+    //    console.log(newsum1)
+        // var newsum=arr1.reduce(a=>{
+        //     return parseInt(a)
+        // })
+        // var sum = arr.reduce((a,b)=>{
+        //     return parseInt(a)+parseInt(b);
+        // })
+        // console.log(newsum)
+        this.setState({total:`Total is ${newsum1} `})
+    }
+    }
+    
+    onRemove=(index)=>{
+    var del=this.state.inputs.splice(index,1)
+    // console.log(del)
+    // console.log(index) 
+    this.setState({inputs:this.state.inputs})
+    }
+
+    render() {
+        return (
+            <div>
+                <h1 className='text-center' >Dynamic Calculator</h1>
+                <div className='container mt-5'>
+                <input type='number' className='mb-2 py-1' name='' value={this.state.firstInp} onChange={this.onHandleChange1} />
+                    {this.state.inputs.map((inp,i)=>(
+                         <div key={i}>
+                             <input type='number' className=' py-1 ' name='' value={inp} onChange={(e)=>this.onHandleChange(e,i)} />
+                             <button className='btn btn-outline-danger ml-1' onClick={()=>this.onRemove(i)}>Remove</button>
+                         </div>    
+                    ))}
+                    <div></div>                    
+                    <button className='btn btn-primary my-2' onClick={this.onAdd}>Add</button>
+                    <button className='btn btn-success my-2 ml-2' onClick={this.onCalculate}>Calculate</button>
+                    <h1>{this.state.total}</h1>
+                </div>
+            </div>
+        )
+    }
+}
